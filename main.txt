@@ -1,0 +1,449 @@
+\documentclass[a4paper]{article}
+
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{pgfplotstable}
+\usepackage{booktabs} 
+\usepackage[normalem]{ulem}
+\usepackage{amsmath,amsfonts}
+\usepackage{algorithm}
+\usepackage{array}
+\usepackage{textcomp}
+\usepackage{stfloats}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{multirow}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage[svgnames, x11names, dvipsnames]{xcolor}
+\usepackage{epstopdf}
+\usepackage{hyperref}
+\usepackage{stmaryrd}
+\usepackage{algpseudocode}
+\usepackage{ifthen}
+\usepackage{xifthen}
+\usepackage{soul}
+\usepackage{makecell}
+\usepackage{glossaries}
+\usepackage{subcaption}
+
+\input{../commands.tex}
+\input{../acronyms.tex}
+
+
+\begin{document}
+
+\section*{Responses to Reviewer Comments}
+
+
+\subsection*{Editor's response}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+
+\textbf{General comment:} \textcolor{Plum}{I am writing to you concerning the above referenced manuscript which you submitted to the IEEE Internet of Things Journal.}
+
+\textcolor{Plum}{Based on the enclosed set of reviews, this manuscript is not acceptable for publication at this time.  Please consider the comments of the reviewers and resubmit your reworked manuscript as quickly as you feel is appropriate.  Your revised manuscript will receive another peer review as a new submission.  Be sure to mention the original paper number in your cover letter and the Author Comments field.}
+
+\textcolor{Plum}{As you revise the manuscript, please use the Track Changes feature of MS Word, or a similar method, to show the changes you have made.  The changes must be underlined or highlighted in the resubmitted manuscript.  This will expedite the re-review process.}
+
+\textcolor{Plum}{Be sure to include a file with a detailed response to the reviews as well.}
+
+\vspace{.8cm}
+Dear Editor,
+
+\vspace{.3cm}
+The authors sincerely thank you and the reviewers, for their valuable and constructive comments, which greatly helped us improve the manuscript quality. We have carefully considered all comments mentioned and incorporated the suggested revisions throughout the article. We have taken particular care to address the concerns raised by Reviewer 2 and 3. These are the major modification we did:
+
+\begin{itemize}
+    \item The introduction has been updated to clarify how the proposed NB-polar decoder contributes to reducing the power consumption of communication systems, which was previously unclear.
+    \item The FER performance curves have been extended to FER $<10^{-7}$ to demonstrate the absence of an error floor for the proposed decoding algorithm.
+    \item Energy consumption information has been added in the revised manuscript (Figure 11), along with the corresponding discussion.
+    \item A comparison with related works, including SC, SCL, and NB-LDPC decoder implementations, has been added at the end of the paper. Although a direct comparison was not possible due to differences in error-correction performance across code families and decoding algorithms, we have made a careful attempt to position the proposed decoder fairly.
+\end{itemize}
+
+For transparency, all modifications have been clearly highlighted in blue in the revised version of the paper, except for the removed sentences and paragraphs. In the following, we provide a detailed point-by-point response to each reviewer’s comment.\\
+
+We hope that the modified version will meet expectations and can be recommended for publication in IEEE Internet of Things Journal.\\
+
+Sincerely,
+
+The authors
+
+%
+%\textbf{Modifications}: Section~\ref{section:Detection} line 712-799, and Figure~\ref{fig:DynHaMo_rom_rop}.
+%
+\newpage
+
+\subsection*{Response to Reviewer 1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+
+\textbf{General comment:} \textcolor{Plum}{\emph{This paper considers implementation issues of nonbinary polar codes (NBPC). The NBPC is one of the front-line solutions in error-correcting coding. They are most efficient for coded modulation since NBPC allows perfect coding-modulation matching and fully exploits soft information from the demodulator output.}}
+
+\textcolor{Plum}{\emph{Similar to NB LDPC codes, the bottleneck of the approach is the high complexity of processing LLRs for nonbinary symbols. For q-ary codes, the complexity of the straightforward node processing operation is of order $q^2$. By using the fast Hadamard transform, the complexity is reduced to roughly $q\log q$ operations. However, to get maximum improvement from switching to the transform domain, it is necessary to resolve many nontrivial technical issues.}}
+
+\textcolor{Plum}{\emph{The paper contains a detailed, clearly written discussion of each step of the algorithm and concludes with thorough simulations of different codes. It is demonstrated that very high throughput can be achieved by implementing NBPC decoding on multicore SIMD architectures.}} \\
+
+
+\paragraph*{Author response:} {We sincerely thank you for the time you devoted to reviewing our manuscript and for the positive comments you provided.\\
+
+%\paragraph*{Modifications:} \textcolor{red}{Not task to dispatch}.
+
+\newpage
+
+\subsection*{Response to Reviewer 2}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+
+\paragraph*{General Comment:} \textcolor{Plum}{\emph{No general comment.}}
+
+
+\paragraph*{Author response:} We thank you for the time devoted to the evaluation of our manuscript and for your positive comments. You raised a number of legitimate remarks regarding the first version of the manuscript. In the following, we provide our responses to your comments and describe the modifications made in the revised article version. \\
+
+\paragraph*{R2.1 Comment:} \textcolor{Plum}{Although this work claims that non-binary (NB) polar codes provide better decoding performance and can achieve low-power consumption, it would be beneficial to include a direct comparison between the proposed method and traditional binary polar codes, particularly in terms of power consumption and throughput.}
+
+\paragraph*{Author response:} Thank you very much for your comment, which highlights a tricky point in the paper and points out an ambiguous statement.
+
+First, in terms of complexity, binary code will always be more efficient than non-binary code in terms of decoding power consumption and throughput. For example, in the case of binary polar codes, the f-function requires only a single operation, resulting in a complexity of O(1), whereas for NB-p codes over GF(q), the complexity per bit is O(q). For instance, in 2015, \cite{LeG14} reported a software implementation of binary polar codes achieving a decoding throughput greater than 2 Gbit/s per CPU core. From the polar decoding perspective alone, there is absolutely no advantage in using NB-p codes over binary polar codes in terms of throughput and energy if the coding gain is not considered.
+
+However, when considering the energy and throughput of the transmission itself, the picture changes. In fact, the performance of coded modulation significantly outperforms that of bit-interleaved coded modulation (see \cite{Liva17}, for example). The figure \ref{fig:josheph}, extracted from Jocelyn Bourduge’s PhD thesis \cite{Bou24}, shows that the use of coded modulation (and thus, a non-binary code) provides a 2 to 3 dB gain at low SNR compared to BICM modulation (which uses a binary code). This capacity gain translates directly into transmission throughput and/or energy savings (the same amount of information can be transmitted faster for a fixed SNR).
+
+\begin{figure}[!b]
+    \centering
+    \includegraphics[width=\linewidth]{fIg_PhD_J_Bourduge.jpg}
+    \caption{Copied form PhD of Jocelyn Bourduge [3]}
+    \label{fig:josheph}
+\end{figure}
+
+
+\paragraph*{Modifications:} We agree that this is a valid concern, and the manuscript has been revised accordingly as described below. To resolve the ambiguity of the statement, we modify slightly the introduction. The changes are highlighted below.}
+
+\textcolor{blue}{\itshape In this context, it is well known that coded modulation significantly outperforms conventional Binary Interleaved Coded Modulation (BICM) \cite{Cair98}, \changed{especially}{ particularly} in the low-SNR regimes \changed{typical}{ characteristic} of \acrshortpl{lpwan}. However, \changed{deploying coded modulation over large-alphabet $q$-ary modulations (e.g., from $64$ to $4096$), presents nontrivial practical challenges. In fact,}{ this gain is achieved by replacing energy, and throughput, efficient binary codes with complex non-binary codes. Indeed, } achieving optimal performance requires non-binary \acrshortpl{ecc} defined over a field matching the modulation alphabet size like \acrshort{nbldpc}~\cite{Bar03} or \acrshort{nbp} codes~\cite{Par12}. These high cardinality non-binary codes typically \changed{involve}{ entail} high decoding complexity and substantial memory requirements, which \changed{conflict}{ are at odds} with the tight computational and energy constraints of \acrshort{iot} \changed{transceiving devices}{ transmission}.}\\
+
+Furthermore, in the experimental section, we have positioned the proposed decoder with respect to those reported in the literature, taking all necessary precautions to ensure a fair and accurate comparison. A new subsection was added at the end of the Experimentation section part.
+
+\subsubsection*{\emph{\textcolor{blue}{V.B. Comparison with related works}}}
+
+\emph{\textcolor{blue}{To the best of our knowledge, no software implementations dedicated to the decoding of NB-p codes have been reported in the literature, preventing a direct comparison. Nevertheless, several efficient software implementations have been developed for instance for binary polar code decoding \cite{Cas15,LeG14,Sar14,Gia18} and for non-binary LDPC codes \cite{Fer22,LeG20}, which represent the closest works to our contribution. It is important to emphasize that the non-binary polar decoders proposed in this work, which rely on the SC-FFT decoding algorithm, achieve higher error-correction performance than conventional binary polar decoders based on SC \cite{Cas16} and SC-SCAN \cite{LeG18}. This performance gain, however, comes at the cost of a higher computational complexity, as discussed in Section I.}}
+
+\emph{\textcolor{blue}{In the literature, binary SC decoders \cite{LeG14} have been shown to achieve very high throughput, exceeding 2 Gbps per core on platforms similar to P3 for code lengths $N<2048$ using a single processing core. However, such high throughput, which naturally results in a reduction of the energy consumption per decoded bit (by approximately one order of magnitude), is achieved at the expense of a degradation in error-correction performance of about 2 to 3 dB.}}
+
+\emph{\textcolor{blue}{In parallel, more powerful binary polar code decoders in terms of error-correction capability have been proposed to partially compensate for SNR gaps. These decoders are typically based on the SCL algorithm \cite{Tal11}. Several software implementations have been reported in the literature \cite{Leo19,Liu22}. However, these implementations generally rely on a conventional SC decoding stage and invoke SCL decoding only when the initial SC decoding fails. This strategy artificially increases the average throughput at high SNR values (e.g., $>3.0$ dB), since the computationally intensive SCL decoding is rarely executed. Nevertheless, such approaches exhibit significantly reduced throughput at low SNR, where the execution of the SCL decoder becomes necessary \cite{Leo19,Liu22}. In practice, the reported throughput on CPU and GPU platforms does not exceed a few Mbps per core, despite the use of more complex and power-hungry architectures (e.g., an RTX3090 GPU \cite{Liu22}).}}
+
+\emph{\textcolor{blue}{A similar observation has been reported in the context of non-binary LDPC codes \cite{LeG20}. In such systems, the achievable throughput directly depends on the average number of decoding iterations required for convergence, which is itself strongly correlated with the SNR. Experimental evaluations performed on the P3 platform using the software implementations described in \cite{LeG20} show that, for finite fields $GF=\{16,64,256\}$, a code rate of 50\%, and up to ten decoding iterations, the achieved throughput ranges from 1 to 6 Mbps in single-core mode at 0 dB when all ten iterations are effectively required. These throughput values are more than one order of magnitude lower ($>10\times$) than those reported in Section V-C of this paper, which consequently implies a similar increase in the energy consumption per decoded bit.}}
+
+\emph{\textcolor{blue}{In the proposed approach, the computational complexity of the decoder is independent of the SNR, including in low-SNR regimes ($<0$ dB). Although a direct comparison remains difficult due to the open and heterogeneous evaluation frameworks considered in the literature, the proposed solution enables operation in low-SNR conditions while maintaining a consistently high throughput regardless of the channel conditions.}}
+
+
+\paragraph*{R2.2 Comment:} \textcolor{Plum}{More detailed descriptions should be provided for Figures 7 and 8, including clearer explanations of the labels and the parameters shown in the figures.}\\
+
+\paragraph*{Author response:} Thank you for your valuable comment, indeed ; the previous figures were not clear enough.
+
+\paragraph*{Modifications:}  We maid the following changes: \emph{\added{Frame length} N} for figure 7's x labels, and \emph{\added{GF size} q} for figure 8's x labels.
+
+\paragraph*{R2.3 Comment:} \textcolor{Plum}{In Figure 8, please clarify why the P4 D1 scheme achieves higher throughput when the block length $< 16$. A more detailed explanation of this behaviour would improve the reader’s understanding.}
+
+\paragraph*{Author response:} You are right, this topic could be discussed more.
+To explain this behaviour, we have measured several metrics using the Linux perf API on $\Pl{4}$, for GF size $\q$ from $8$ to $1024$, for $\N = 64$ and $\R = 50\%$, results are reported in the current document in table~\ref{tab:ipc}.
+The number of instructions per cycle (IPC) are around 3.0 for $q = 8$ and $q = 16$ for \DecPbFq{}, but at around $1.5$ for \DecProba{} and \DecPbFqS{}.
+For other values of $q$, IPC were still different but only by a margin of $0.5$, and values around $1.75$ for the three decoders.
+It appears that the compiler we used on Linux (GCC 14) found efficient optimisation opportunities for those value of $q$.
+It is likely that the compiler took advantage of the regularity of \DecPbFq{} (loop of conditionals executing near identical code) to execute in parallel some FWHTs that would otherwise be executed sequentially.
+This is not replicated when using a different compiler (i.e., Clang-19), or on the other platform under test.
+For completeness, we also check on another last-gen CPU (namely, an AMD Ryzen AI 5 340), and the same behaviour has been observed, hinting to AVX512-related optimisations.
+The explainability of such behaviour is not trivial and difficult to generalize.
+
+\paragraph*{Modifications:} 
+To account for your remark, and help the reader to understand our reasoning, we added the following to the paper:
+\begin{revisionenv}
+ \deleted{The only exception is for P4 for q = 8 and 16 with D1, but we failed to replicate such results on any other platform, especially when N is varying.}
+    Two outliers can be observed on $\Pl{4}$ for $q = 8$ and $q = 16$ where \DecPbFq{} outperforms the others. This results from optimisations performed by the compiler (GCC 14) which took advantage of the systematic structure of \DecPbFq{}. This behaviour is specific to this setup, and is not replicated when $\N$ or $q$ is increased or when another compiler is used (e.g., Clang).
+\end{revisionenv}
+
+\paragraph*{R2.4 Comment:} \textcolor{Plum}{What is the power consumption performance of the proposed work? Additionally, it would be helpful to provide a comparative analysis with existing approaches to better demonstrate the advantages of the proposed design.}
+
+\paragraph*{Author response:} You are right, the power consumption was missing from the initial release of the paper. Concerning the comparison with related works, we already addressed this point in remark in 2.1.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\paragraph*{Modifications:} In the revised version of the paper, we added the figure 11 and several paragraphs at the end of the section V.D. They provide energy consumption per coded bit for each decoder on each platform and for rate $R = 25\%$ and $75\%$. The added text is also reported below for convenience.
+
+
+\begin{revisionenv}    
+Finally, the energy consumption has been estimated.
+We used the average power drawn by each platform in single- and multicore operation as reported in Table IV, and divided it by the coded throughput achieved.
+The results are reported in $\mu$J per coded bit as bar graphs in figure 11, for \DecPruned{} and \DecGener{} for a coding rate $\R \in \{25\%, 75\%\}$, for symbols in \GF{64} and frame length $\N = 256$.
+Those settings correspond to those used for figure 9b, only reported for the two best implementations presented so far.
+
+Those results clearly demonstrate that the scalability translates to systematic reduction of energy consumption for multicore variants, independently of the coding rates or the decoder variant in use.
+%They also confirm that the rate is a predominant parameter,
+
+An interesting result is that for $\R = 75\%$, \DecPruned{} and \DecGener{} reach nearly the same result.
+As presented in subsection IV-D, they differ the most when computations can be omitted, like before Rate-0 nodes.
+Such occasions are rarer for higher code rates, hinting that \DecGener{} may be suitable for high code rate targets only if a restricted subset of settings can be defined ahead of time, while \DecPruned{} should be preferred otherwise in such cases on any platform.
+
+For low code rates, however, \DecGener{} have a clear advantage over \DecPruned{}.
+For $\R = 25\%$, \DecGener{} consumes 1.7x less energy per coded bit (due to a throughput 1.7x higher) than \DecPruned{}. The same can be said for $\Pl{2}$ and $\Pl{3}$, where the consumption is reduced by 2x.
+On $\Pl{4}$, while a factor of 1.7x can be observed in single-core, it falls to 1.1x in multicore, the latter being the main use case for such a platform.
+Thus, on $\Pl{4}$, unless the extra throughput performance enabled by \DecGener{} is required, \DecPruned{} should be preferred, enabling complete flexibility across rate settings.
+\end{revisionenv}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+
+\subsection*{Response to Reviewer 3}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+
+\paragraph*{General Comment:} \textcolor{Plum}{\emph{No general comment.}}\\
+
+\paragraph*{Author response:} We thank you for the time devoted to the evaluation of our manuscript and for your positive comments. You raised a number of legitimate remarks regarding the first version of the manuscript. In the following, we provide our responses to your comments and describe the modifications made in the revised manuscript. \\
+
+\paragraph*{R3.1 Comment:} \textcolor{Plum}{The manuscript attributes the significant throughput drop at $q \ge 128$ to L1 Cache misses. To strengthen this claim, the authors must provide a quantitative profiling table or chart using hardware performance counters (e.g., using perf or Intel VTune). Specifically, please include metrics for Instructions Per Cycle (IPC) and L1 Data Cache Miss Rates for various field sizes ($GF(16)$ to $GF(256)$). This will transform the current speculative conclusion into a verifiable architectural insight.}
+
+\paragraph*{Author response:} Thank you for this legitimate comment. You are right, this claim should be explicitly supported by results.
+While we had estimated this behaviour, we have now verified it through measurements.
+For that, we used the Linux perf API on $\Pl{1}$, $\Pl{3}$, and $\Pl{4}$, and measured the cache miss rate and the IPC. The results are reported below in table~\ref{tab:ipc} and table~\ref{tab:cache}, only for $\Pl{1}$ and $\Pl{4}$ for readability reasons.
+Those two tables support our estimation, since IPC is not strongly fluctuating between the two zones, especially considering the amount of extra instructions required to process larger GF elements, while the cache miss rate rises when $q > 64$ on both platforms.
+The increase is light on $\Pl{1}$, the platform being already limited by its computing power, but the change in slope is also light compared to the change observed on $\Pl{4}$.
+The same behaviour has been measured on $\Pl{3}$. We expect the same behaviour on $\Pl{2}$, but macOS do not support the Linux perf API.
+
+\begin{table}[h]
+\begin{subtable}{.45\linewidth}
+        \centering
+        \caption{Instructions per cycle (IPC)}
+        \begin{tabular}{@{}r@{\phantom{XXX}}ccc@{\phantom{XXX}}ccc@{}}
+        \toprule
+             & \multicolumn{3}{@{}c@{\phantom{XXX}}}{$\Pl{1}$} & \multicolumn{3}{c}{$\Pl{4}$} \\ \midrule
+        GF   & \DecProba{} & \DecPbFq{} & \DecPbFqS{} & \DecProba{} & \DecPbFq{} & \DecPbFqS{} \\ \midrule
+        8    & 1.57 & 1.78 & 1.81 & 1.63 & 3.05 & 1.57 \\
+        16   & 1.81 & 1.83 & 2.07 & 1.97 & 3.29 & 1.87 \\
+        32   & 1.87 & 1.79 & 2.11 & 1.16 & 1.90 & 1.45 \\
+        64   & 1.86 & 1.76 & 2.18 & 1.46 & 2.30 & 1.69 \\
+        128  & 1.93 & 1.62 & 1.95 & 1.96 & 2.32 & 1.86 \\
+        256  & 2.05 & 1.73 & 2.02 & 2.43 & 2.85 & 2.23 \\
+        512  & 2.12 & 1.88 & 2.09 & 2.66 & 2.91 & 2.57 \\
+        1024 & 2.11 & 1.82 & 2.05 & 2.63 & 2.91 & 2.51 \\
+        \bottomrule
+        \end{tabular}
+        \label{tab:ipc}
+\end{subtable}\hfill
+\begin{subtable}{.45\linewidth}
+        \caption{Cache miss rates (\%)}
+        \begin{tabular}{@{}r@{\phantom{XXX}}ccc@{\phantom{XXX}}ccc@{}}
+        \toprule
+             & \multicolumn{3}{@{}c@{\phantom{XXX}}}{$\Pl{1}$} & \multicolumn{3}{c}{$\Pl{4}$} \\ \midrule
+        GF   & \DecProba{} & \DecPbFq{} & \DecPbFqS{} & \DecProba{} & \DecPbFq{} & \DecPbFqS{} \\ \midrule
+        8    & 0.01 & 0.00 & 0.00 & 0.02 & 0.01 & 0.01 \\
+        16   & 0.01 & 0.00 & 0.00 & 0.01 & 0.01 & 0.01 \\
+        32   & 0.01 & 0.01 & 0.01 & 0.03 & 0.04 & 0.03 \\
+        64   & 0.01 & 0.16 & 0.02 & 0.03 & 1.61 & 0.23 \\
+        128  & 0.16 & 1.00 & 0.61 & 1.67 & 4.28 & 2.72 \\
+        256  & 0.40 & 1.00 & 0.70 & 2.94 & 7.46 & 4.67 \\
+        512  & 0.50 & 0.99 & 0.81 & 6.11 & 9.05 & 7.43 \\
+        1024 & 0.56 & 0.99 & 0.86 & 6.46 & 8.27 & 8.01 \\
+        \bottomrule
+        \end{tabular}
+    \label{tab:cache}
+\end{subtable}
+\caption{Linux perf API measurement on $\Pl{1}$ and $\Pl{4}$}
+\end{table}
+
+\paragraph*{Modifications:} While the table provide extraneous details, and allow a deeper understanding of the functioning of the software, we feared that their addition would be more confusing than informative. We thus tried to summarize the previous explanations in the revised paper as follows:
+
+\begin{revisionenv}
+\itshape
+To explain this behaviour, cache miss rate and instructions per cycle (IPC) have been measured using the Linux perf stat API on the three Linux-based platforms.
+%They are reported in Table~\ref{TOBEADDED}.
+The cache miss rate remains below $0.3\%$ on $\Pl{1}$, and even below $0.1\%$ for the other platform when $\q < 128$.
+It then increases from $0.5\%$ to around $10\%$ for $q \geq 128$. In the meantime, ignoring the two outliers of $\Pl{4}$ addressed earlier, IPC values are coherent with a better use of \simd{} features, and reach higher values when $q$ increases, but without consequences in regard to the increase in computational complexity, thus supporting the assumption that the observed behaviour is mainly driven by efficient cache use.
+\end{revisionenv}
+
+
+\paragraph*{R3.2 Comment:} \textcolor{Plum}{Soft-Input Construction for IoT Waveforms: While the paper discusses the decoder, it lacks a detailed description of the interface with the IoT physical layer. I recommend integrating the mathematical logic for constructing the length-$q$ probability vector from the frontend correlator. For systems like CCSK or LoRa, please formally include the soft-metric derivation (e.g., $A[m] \propto |r[m]|^2 / \sigma^2$) in the System Model section to demonstrate how "correlation peaks" are mapped to the DPF-FSC input.}\\
+
+\paragraph*{Author response:} Thanks for your valuable comment that shows that the explanations were not developed enough.
+
+\paragraph*{Modifications:} To explain in detail the LLR computation in case of the LoRa modulation, we add the following text in the paper, at the end of section II.B.
+
+\begin{revisionenv}
+\emph{\textcolor{blue}{For the LoRa modulation, a simpler, but equivalent, demodulation algorithm is usually applied. A LoRa symbol is modulated using a chirp with a frequency that varies linearly over time. Considering a given spreading factor SF, the $m^{th}$ symbol $x_m$ of the $2^{SF}$ dictionary codeword can be represented in digital by $x_m$, a vector of size $2^{SF}$ given as}}
+
+\begin{equation}
+x_m(k) = e^{ 2\pi j \left( \frac{k^2}{2 \cdot 2^{\text{SF}}} - \frac{m k}{2^{\text{SF}}} \right)}, \: \: k = 0, 1, \dots, 2^{\text{SF}} - 1.
+\label{eq:CSS}
+\end{equation}
+
+\emph{\textcolor{blue}{Let $y$ be the noisy-received version of a send codeword, (\ref{eq:P(x|y)}) implies the computation of the $2^{SF}$ scalar product $r(m) = <y|x_m>$ with}}
+
+\begin{align}
+r(m) &= \sum_{k=0}^{2^{SF}-1} y(k)e^{- 2\pi j \left(\frac{k^2}{2.2^{SF}} - \frac{m k}{2^{\text{SF}}} \right)},\\
+     &= \sum_{k=0}^{2^{SF}-1} \left(y(k)e^{- 2\pi j \frac{k^2}{2.2^{SF}}}\right) e^{2\pi j \frac{m k}{2^{\text{SF}}} }\\
+\label{eq:CSS_demos}
+\end{align}
+
+\emph{\textcolor{blue}{which is equal to the $m^{th}$ terms of the Inverse Fast Fourier Transform (IFFT) of the terms by terms product of $y$ and $\text{conj}(x_0)$ multiplied by a factor $2^{SF}$.}}    
+\end{revisionenv}
+
+\paragraph*{R3.3 Comment:} \textcolor{Plum}{SPC Node Convergence and SNR Wall: Given that the SPC approximation introduces a $\sim$0.1 dB loss, the authors should provide a convergence or "SNR Wall" analysis across different code rates ($R = 1/4, 1/2, 3/4$). It is critical to ensure that this approximation does not lead to an irreducible error floor at extremely low Frame Error Rates (FER), which is a vital metric for mission-critical IoT applications.}
+\\
+
+\paragraph*{Author response:} Thank you very much for your insightful comment. It can be addressed in two ways: theoretically and through Monte-Carlo simulation.
+The theoretical approach would involve first studying the conditions under which the SPS approximation fails while the exact SPS does not. Next, it would require assessing the probability of such events occurring (as a function of parity check size and SNR), and finally, evaluating the impact of these errors on overall performance. While a theoretical approach is feasible, it is not a straightforward approach.
+On the other hand, Monte-Carlo simulation directly allows us to verify the absence of an error floor down to very low FER values (e.g., $10^{-7}$ in the revised version of the paper). Nevertheless, it is worth noting that the software used in the initial submission did exhibit an error floor around a FER of $10^{-5}$. However, this error floor was not caused by the SPS approximation but rather by numerical instability in finite-length computations, which resulted in some probability values becoming zero or negative.
+This issue has been resolved by introducing a clipping function after computing each probability vector, for example, $P= \max(P, 10^{-10})$. Naturally, this function has a negligibleslight impact on decoding throughput, and all the results in this revised version account for this modification.
+
+\paragraph*{Modifications:} We thus add the following text in the section III.A of the revised paper version.
+
+\emph{\textcolor{blue}{In practice, even with floating-point arithmetic, the inverse Hadamard transform can generate near-zero or even small negative probability values due to finite precision effects, particularly when subtracting nearly equal numbers.
+These spurious zeros, if left unclipped, can accumulate through successive decoding layers and eventually cause an error floor at high SNRs.
+To prevent this, we apply a simple clipping operation after every inverse transform.
+Any probability value smaller than a threshold $\varepsilon = 10^{-10}$ is replaced by $\varepsilon$.
+The threshold $\epsilon$ is chosen sufficiently small to have no measurable impact on performance, while being large enough to flush out underflown values.
+Empirical results prove that this clipping eliminates the error floor entirely, up to a frame error rate of $10^{-8}$.
+In the following, we denote by $\bar{\mathcal{H}}$ the inverse Hadamard transform that includes this clipping.}}
+
+
+\paragraph*{R3.4 Comment:} \textcolor{Plum}{In Tables I and II, the complexity comparison should distinguish between the computational "cost" of multiplications versus the additions/subtractions in the FWHT. In modern SIMD software execution, these operations have different latencies and throughputs. A more nuanced discussion on how these weights impact actual execution time would improve the clarity of the complexity analysis.}
+
+\paragraph*{Author response:} Thank you for this valuable remark, which we had not analyzed in detail until now. At first glance, when reading your comment, we had the same intuition as you. However, after examining the official documentation as well as previous studies related to Intel and Arm architectures, we reached the opposite conclusion. Indeed, it is true that integer addition and multiplication operations (int32b) exhibit different latencies and throughputs. According to the official documentation from Intel (Intel Intrinsics Guide), for 32-bit integer operations on the Skylake architecture, an addition has a latency of 1 cycle and a throughput of 0.33 cycles per instruction, whereas a multiplication has a latency of 5 cycles and a throughput of 0.5 cycles per instruction.
+
+For floating‑point instructions the picture is different. Referring again to Intel’s official documentation \cite{intel:guide}, the \emph{vaddps} and \emph{vmulps} instructions exhibit identical characteristics on Skylake: a latency of 4 cycles and a throughput of 0.5 instruction per cycle. On Alder Lake architectures, however, the latency of \emph{vaddps} becomes roughly half that of \emph{vmulps}. This Alder Lake behaviour appears to be a special case \cite{Abe19}. The theoretical observations are confirmed by experimental results reported in \cite{Abe19}. Benchmarks show that the execution times and throughput of \emph{vaddps} and \emph{vmulps} are essentially identical on most Intel platforms (Skylake‑X, Coffee Lake, Tiger Lake, Rocket Lake) but also on AMD Zen ones.
+
+Regarding ARM architectures, available data are more limited because vendors typically provide few micro‑architectural details for their custom cores. This is especially true for Apple Silicon processors (Apple M4). Nevertheless, performance analysis of a Cortex‑M7 core also reveals identical latencies and throughputs for floating‑point addition and multiplication instructions \cite{arm:guide}.
+
+\paragraph*{Modifications:} It remains difficult to generalise these observations across all contemporary processor cores. Nevertheless, available data suggest that, for floating‑point operations, the performance of additions is comparable to that of multiplications on many modern architectures. Accordingly, we have incorporated this additional information into section IV.B on complexity analysis as you suggested.
+
+\emph{\textcolor{blue}{Table II lists the computational complexity, expressed in floating‑point operations (FLOPs), of the various processing stages shown in Table I. On modern Intel cores (e.g., Skylake), the situation for floating point operations differs from that of integer arithmetic \cite{intel:guide,Abe19}. Indeed where integer addition and multiplication latencies are not equal (e.g., vpaddd = 1 cycle, vpmuldq = 5 cycles). For single‑precision floating point, however, the latency of both addition and multiplication is identical (vaddps = 4 cycles, vmulps = 4 cycles). Note that the maximum operation still incurs a 4‑cycle latency, whereas division requires 11 cycles. These observations seems equivalent for ARM cores even if less precise informations are available \cite{arm:guide}.}}
+
+\paragraph{R3.5 Comment:}\label{par:R3.5} \textcolor{Plum}{The paper introduces two decoder variants: $\mathcal{D}_{2r}$ (runtime-adaptive) and $\mathcal{D}_{2b}$ (build-time code generation). The conclusion should more explicitly define their intended IoT use cases. For instance, $\mathcal{D}_{2r}$ is clearly suited for adaptive-rate systems (e.g., SDR), whereas $\mathcal{D}_{2b}$ is optimized for high-performance gateways with fixed parameters. This distinction will help practitioners select the appropriate implementation for their specific IoT architecture.}
+
+\paragraph*{Author response:} You are right, and we completely agree with your observation. Indeed, for a given set of parameter, both implementations result in nearly the same decoder architecture, achieved through conditionnals at runtime for $\mathcal{D}_{2r}$, while $\mathcal{D}_{2b}$ resolve these conditions during build time, allowing more agressive optimisations to be baked in for lower rates.
+
+It means that for higher code rates, both implementations behave roughly the same. The computationnal overhead induced by conditionnals is absorbed by branch prediction on $\mathcal{D}_{2r}$, as validated by measurement using Linux perf API.
+Indeed, those conditions result in nearly identical computations, which is very beneficial to speculative execution.
+The story is different for low rates. $\mathcal{D}_{2b}$ description take advantage of knowing the data type in advance, and remove even more computations (for instance, in the case of RATE-0 node).
+
+
+
+\paragraph*{Modifications:} To make those differences explicit, we added several paragraphs at the end of the section V.D and a new figure (no. 11), which provide energy consumption per coded bit for each decoder on each platform and for rate $R = 25\%$ and $75\%$.
+The added text is also reported below for convenience.
+
+\begin{revisionenv}
+\itshape
+An interesting result is that for $\R = 75\%$, \DecPruned{} and \DecGener{} reach nearly the same result.
+As presented in subsection~IV-D, they differ the most when computations can be omitted, like before Rate-0 nodes.
+Such occasions are rarer for higher code rates, hinting that \DecGener{} may be suitable for high code rate targets only if a restricted subset of settings can be defined ahead of time, while \DecPruned{} should be preferred otherwise in such cases on any platform.
+
+For low code rates, however, \DecGener{} have a clear advantage over \DecPruned{}.
+For $\R = 25\%$, \DecGener{} consumes 1.7x less energy per coded bit (due to a throughput 1.7x higher) than \DecPruned{}. The same can be said for $\Pl{2}$ and $\Pl{3}$, where the consumption is reduced by 2x.
+On $\Pl{4}$, while a factor of 1.7x can be observed in single-core, it falls to 1.1x in multi-core, the latter being the main use case for such a platform.
+Thus, on $\Pl{4}$, unless the extra throughput performance enabled by \DecGener{} is required, \DecPruned{} should be preferred, enabling complete flexibility across rate settings.
+\end{revisionenv}
+
+\paragraph*{R3.6 Comment:} \textcolor{Plum}{I suggest revising the "Gbps-level" claims in the abstract to include specific field constraints. While 900 Mbps is achieved for $GF(16)$ on high-end CPUs, the performance for practical high-cardinality fields (like $GF(256)$) is lower. A more nuanced phrasing will prevent misleading readers regarding the performance in the most challenging $q$-ary configurations.}
+
+
+\paragraph*{Author response:} We are sorry if our phrasing was not clear enough.
+
+\paragraph*{Modifications:} We updated the article with nuanced phrasing to prevent misleading interpretation.
+
+\emph{\textcolor{blue}{Our most optimized implementation (\DecGener{}) on high-end processors reaches up to 900 Mbps for codes over \GF{16} in single core configuration.  Even, if larger Galois fields (\GF{64} and \GF{256}) use has a significant impact on the decoding throughput (according to the computational complexity increase) the decoders still achieve high throughput levels, especially in multicore configuration.}}
+
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+
+\paragraph*{R3.7 Comment:} \textcolor{Plum}{The proposed DPF-FSC algorithm utilizes a "dual-domain buffer" strategy to minimize redundant transforms. While effective for high-end CPUs, this represents a significant "space-for-time" trade-off. For ultra-constrained IoT devices where SRAM is a premium resource, the authors should provide a specific analysis of the peak memory footprint versus the computational savings. A quantitative comparison showing the memory requirements of $GF(256)$ decoding on a per-frame basis relative to the available memory on typical low-power MCUs (e.g., ARM Cortex-M series) would be highly valuable.}
+
+\paragraph*{Author response:} Thank you for highlighting the lack of precision in the original manuscript. The peak memory footprint of the dual‑phase decoder is identical to that of the decoder handling only probabilities (the original algorithm). The memory region holding exchanged messages—comprised of $N$ slots each containing $P=\log_2(q)$ elements with the same data size regardless of whether probabilities or frequencies are stored. Memory cost is therefore identical in both cases, since each probability or frequency value is represented by a 32‑bit floating‑point number. During decoding, both approaches require two memory buffers of $P$ elements to perform domain conversions (probability from/to frequency) before the multiplications. In conclusion, the dual‑phase approach minimizes domain conversions during decoding without increasing runtime memory complexity. Note that low-power MCUs implementation with RF shields is part of our future works.
+
+\paragraph*{Modifications:} In the original manuscript, Section IV.B discussed the memory complexity of the dual‑phase SC decoder. That section has been revised to incorporate the points outlined above. Additionally, a table presenting memory complexity as a function of GF and N has been added to facilitate projections onto memory‑constrained architectures such as the ARM Cortex‑M series. The changes are summarized below:
+
+\begin{revisionenv}
+\emph{Efficient memory mapping and a low decoder memory footprint are crucial for reaching high performance on multicore targets.
+Indeed, data mapping in memory enable a manual or even automatic vectorization of computations.
+The FDP-FSC decoding algorithm presented before requires storing four main data sets: 1) the soft channel inputs, 2) the soft messages exchanged across decoding nodes, 3) decision symbols produced during the graph traversal, and 4) the decoder output. We now describe the memory requirements for each memory type. Since the SC scheduling is identical for binary polar codes and NB-ps, the memory optimization proposed for binary polar codes in~\cite{Ler13} can be directly applied to the NB-SC decoder.}
+
+\emph{\textcolor{blue}{Consequently, the channel information equals $N$ probability vectors containg rach $q$ values. The memory required for internal message exchange is reduced to $N-1$ soft messages. In FDP-FSC decoder, exchanged messages can be either probability or frequency vectors. Each soft message is represented either as a probability vector $P_{\theta}^{\ell}$ or as a frequency vector $F_{\theta}^{\ell}$, each comprising $q$ floating-point values. AS they are composed both of $q$ elements of identical size, the memory space can be shared during time without problem. The memory complexity of the FDP-FSC decoder is thus identical to proabaility only decoders. Finally, the $N-1$ decision message corresponds to an element of $GF(q)$ encoded using $p$ information bits such as the $N$ output symbol values. Note that during the decoding process, two memory buffers of $q$ elements are required during the probability to frequency conversion and vice-et-versatility.}}
+
+\emph{Assuming that each element of a soft vector is encoded using the 32-bit IEEE floating-point format (4 octets), and that the $p$ bits encoding a Galois field element require $W = 1$ octet for $p \leq 8$ or $W = 2$ octets for $8 < p \leq 16$ (higher-order Galois fields are not considered in this paper), the total memory footprint $M$ of a single decoder, expressed in octets, is given by:}
+
+\begin{equation}
+\begin{split}
+    \M &= \underbrace{4qN}_{\textrm{input data}} + \underbrace{(4q + w)(N-1)}_{\textrm{message data}} + \underbrace{wN}_{\textrm{output data}} + \underbrace{2q}_{\textrm{buffers}} \\
+      &= (8q + 2w)N - 2q - w \label{eq:M}
+\end{split}
+\end{equation}
+
+\emph{The $\mathcal{S}_3$ parallelization strategy optimizes $\M$ to align with memory cache capacities.
+For instance, with $\N = 256$ and $q = 64$, $\M = 129$ kB, which fits within CPU caches (see Table \ref{tab:platforms}). \textcolor{blue}{A more extensive overiew of the memory complexity of the decoder depeing on their $N$ and $GF$ configurations is provided in Table \ref{tab:mem}. It hilight the fact, that for small N and GG values, the memory complexity can be compliant with micorcontroler and IoT contraints.}}
+
+\begin{table}[!tb]
+\color{blue}
+\centering
+\caption{\color{blue} Memory complexity of FDP-FSC decoder implementations, provided in KB, depending on $N$ anf $GF$ values, values are ceil rounded}
+\label{tab:mem}
+\begin{tabular}{@{}rrrrrrr@{}}
+	\toprule
+	& \multicolumn{6}{c}{$GF$}  \\
+    \cmidrule(r){2-7}
+	$N$ & $8$  & $16$ & $32$ & $64$ & $128$ & $256$ \\
+	\midrule
+16   & 2  & 3   & 5   & 9   & 18   & 35   \\
+32   & 3  & 5   & 9   & 17  & 34   & 67   \\
+64   & 5  & 9   & 17  & 33  & 66   & 131  \\
+128  & 9  & 17  & 33  & 65  & 130  & 259  \\
+256  & 17 & 33  & 65  & 129 & 258  & 515  \\
+512  & 34 & 66  & 130 & 258 & 514  & 1027 \\
+1024 & 67 & 131 & 259 & 515 & 1027 & 2052 \\
+	\bottomrule
+\end{tabular}
+\end{table} 
+\end{revisionenv}
+
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+
+\paragraph*{R3.8 Comment:} \textcolor{Plum}{Static vs. Dynamic Implementation Selection: The manuscript introduces $\mathcal{D}_{2r}$ (runtime-adaptive) and $\mathcal{D}_{2b}$ (ahead-of-time generated). For energy-constrained sensors, the instruction cache overhead and branch misprediction penalties of $\mathcal{D}_{2r}$ might lead to higher power consumption. I recommend the authors include a discussion or a small-scale benchmark on the energy-per-bit consumption differences between these two implementations on a constrained platform like the ARM Cortex-A76 ($P_1$). This will clarify whether the flexibility of $\mathcal{D}_{2r}$ is worth the potential energy penalty in long-term battery-operated deployments.}
+
+\paragraph*{Author response:} Thank you for this precise observation. It has been partially answered while addressing remark R3.5, with the general comparison of \DecPruned{} and \DecGener{} based on energy consumed per coded bit on each platform, including $\Pl{1}$.
+However, you raised an interesting perspective that we did not previously foresee, being the study of the decoder variants on microcontrollers, even more constrained than $\Pl{1}$. We have started projects in this direction, but they go beyond the scope of the current paper.
+
+\paragraph*{Modifications:} Please find below the previously mentioned modifications:
+
+\begin{revisionenv}
+\itshape
+An interesting result is that for $\R = 75\%$, \DecPruned{} and \DecGener{} reach nearly the same result.
+As presented in subsection~IV-D, they differ the most when computations can be omitted, like before Rate-0 nodes.
+Such occasions are rarer for higher code rates, hinting that \DecGener{} may be suitable for high code rate targets only if a restricted subset of settings can be defined ahead of time, while \DecPruned{} should be preferred otherwise in such cases on any platform.
+
+For low code rates, however, \DecGener{} have a clear advantage over \DecPruned{}.
+For $\R = 25\%$, \DecGener{} consumes 1.7x less energy per coded bit (due to a throughput 1.7x higher) than \DecPruned{}. The same can be said for $\Pl{2}$ and $\Pl{3}$, where the consumption is reduced by 2x.
+On $\Pl{4}$, while a factor of 1.7x can be observed in single-core, it falls to 1.1x in multicore, the latter being the main use case for such a platform.
+Thus, on $\Pl{4}$, unless the extra throughput performance enabled by \DecGener{} is required, \DecPruned{} should be preferred, enabling complete flexibility across rate settings.
+\end{revisionenv}
+
+As well as the modifications added in the conclusion to take into account the future works on microcontrollers :
+
+\added{\itshape A future extension of this work is the study of the suitability of \DecPruned{} and \DecGener{} variants on tightly constrained processing platforms like ARM and RISC-V microcontrollers, with and without vector-processing units.}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}
+%%
+%% End of file `sample-manuscript.tex'.
